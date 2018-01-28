@@ -19,8 +19,7 @@ function love.load()
 	player.cooldown= 20
 	player.speed = 10
 	player.fire = function()
-	--We are able to fire a new bullet
-		if player.cooldown <= 0 then
+		if player.cooldown <= 0 then --We are able to fire a new bullet
 			player.cooldown = 20
 		    bullet {}
 		    --The offest added to the bullet's x value allows the bullet to be shot from the middle of the spaceship
@@ -46,18 +45,18 @@ function love.update(dt)
 		player.y = player.y + 1
 	end
 
-	--[[if love.keyboard.isDown(" ") then
+	if love.keyboard.isDown(" ") then
 			player.fire()
-	 	end
+	end
 
-		bullets shoot
-		for i,v in pairs(player.bullets) do
+		--shoot bullets
+		for i,v in ipairs(player.bullets) do
 			if v.y < - 10 then
-				//Remove the bullets if they are out of the screen
+				--Remove the bullets if they are out of the screen
 				table.remove(player.bulets, i)
 			v.y = v.y - 10
+			end	
 		end
-		]]
 end
 
 --Interactable object
@@ -67,7 +66,7 @@ function love.draw()
 --draw the bullets
 	--color the bullets
 	love.graphics.setColor(100,100,100)
-	--for _,v in pairs(player.bullets) do
-	--	love.graphics.rectangle("fill", v.x, v.y 10, 10)
-	--end
+	for _,v in pairs(player.bullets) do
+		love.graphics.rectangle("fill", v.x, v.y, 10, 10)
+		end
 end
