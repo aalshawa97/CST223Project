@@ -1,5 +1,12 @@
+  --Initialize a table of enemies
+  enemy = {}
+  enemy_controller = {}
+  enemy_controller.enemies = {}
+
 --Initialize values for game scene
+local welcomeImage
 function love.load()
+  welcomeImage = love.graphics.newImage("images/startScreen.jpg")
   player = {}
   player.x = 0
   player.y = 550
@@ -14,8 +21,33 @@ function love.load()
       bullet.y = player.y
       table.insert(player.bullets, bullet)
     end
-  end
+ end
+  enemy_controller:spawnEnemy()
 end
+
+--Enemy fire code
+function enemy:fire()
+	--Self allows the class to refer to itself
+	if self.cooldown <= 0 then
+      self.cooldown = 20
+      bullet = {}
+      bullet.x = self.x + 35
+      bullet.y = self.y
+      table.insert(self.bullets, bullet)
+    end
+end
+
+function enemy_controller:spawnEnemy()
+  --Initialize enemy properties
+  enemy = {}
+  enemy.x = 0
+  enemy.y = 0
+  enemy.bullets = {}
+  enemy.cooldown = 20
+  enemy.speed = 10
+  table.insert(self.enemies,enemy)
+end
+
 
 --Update timer count for gun cool down
 function love.update(dt)
@@ -41,6 +73,9 @@ function love.update(dt)
 end
 
 function love.draw()
+  --draw the welcome image
+  love.graphics.draw(welcomeImage, 54, 54)
+
   -- draw the player
   love.graphics.setColor(0, 0, 100)
   love.graphics.rectangle("fill", player.x, player.y, 80, 20)
