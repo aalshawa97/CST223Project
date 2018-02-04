@@ -1,8 +1,9 @@
+    love.graphics.setDefaultFilter('nearest','nearest')
   --Initialize a table of enemies
   enemy = {}
   enemy_controller = {}
   enemy_controller.enemies = {}
-
+  enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
 --Initialize values for game scene
 local welcomeImage
 function love.load()
@@ -13,6 +14,7 @@ function love.load()
   player.bullets = {}
   player.cooldown = 20
   player.speed = 10
+  player.image = love.graphics.newImage("images/spaceship.png")
   player.fire = function()
     if player.cooldown <= 0 then
       player.cooldown = 20
@@ -22,7 +24,8 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
-  enemy_controller:spawnEnemy()
+  enemy_controller:spawnEnemy(300,0)
+  enemy_controller:spawnEnemy(0,0)
 end
 
 --Enemy fire code
@@ -37,7 +40,7 @@ function enemy:fire()
     end
 end
 
-function enemy_controller:spawnEnemy()
+function enemy_controller:spawnEnemy(x,y)
   --Initialize enemy properties
   enemy = {}
   enemy.x = 0
@@ -64,6 +67,11 @@ function love.update(dt)
   	player.fire()
   end
 
+  --Enemy movement
+  	for _,e in pairs(enemy_controller.enemies)do
+  		e.y = e.y + 1
+  	end
+
   for i,b in ipairs(player.bullets) do
     if b.y < -10 then
       table.remove(player.bullets, i)
@@ -73,13 +81,18 @@ function love.update(dt)
 end
 
 function love.draw()
-  --draw the welcome image
+  --Draw the welcome image
   love.graphics.draw(welcomeImage, 54, 54)
 
-  -- draw the player
+  --Draw the player
   love.graphics.setColor(0, 0, 100)
-  love.graphics.rectangle("fill", player.x, player.y, 80, 20)
+  love.graphics.draw(player.image, player.x, player.y,0,.2)
 
+  love.graphics.setColor(255,255,255)
+  --Draw enemies onto the screens
+  for _,e in pairs(enemy_controller.enemies)do
+  	love.graphics.draw(enemy_controller.image, e.x, e.y,0,.2)
+  end
 
 -- Draw bullets
   love.graphics.setColor(255,0,0)
