@@ -15,7 +15,10 @@ function love.load()
   player.cooldown = 20
   player.speed = 10
   player.image = love.graphics.newImage("images/spaceship.png")
+  player.fireSound = love.audio.newSource('laserGunNoise.mp3')
   player.fire = function()
+  	--Laser gun sound
+  	love.audio.play(player.fireSound)
     if player.cooldown <= 0 then
       player.cooldown = 20
       bullet = {}
