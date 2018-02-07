@@ -17,9 +17,9 @@ function love.load()
   player.image = love.graphics.newImage("images/spaceship.png")
   player.fireSound = love.audio.newSource('laserGunNoise.mp3')
   player.fire = function()
-  	--Laser gun sound
-  	love.audio.play(player.fireSound)
     if player.cooldown <= 0 then
+      --Laser gun sound
+  	  love.audio.play(player.fireSound)
       player.cooldown = 20
       bullet = {}
       bullet.x = player.x + 35
@@ -43,11 +43,24 @@ function enemy:fire()
     end
 end
 
+function onCollision(enemies, bullets)
+	for i,e in pairs(enemies)do
+		for _,b in pairs(bullets)do
+			if b.y <= e.y + e.height and b.x > e.x and b.x < e.x + e.width then
+				--Collison occurred
+				table.remove(enemies,i)
+			end
+		end
+	end
+end
+
 function enemy_controller:spawnEnemy(x,y)
   --Initialize enemy properties
   enemy = {}
   enemy.x = 0
   enemy.y = 0
+  enemy.width = 10
+  enemy.height = 10
   enemy.bullets = {}
   enemy.cooldown = 20
   enemy.speed = 10
@@ -81,6 +94,7 @@ function love.update(dt)
     end
     b.y = b.y - 10
   end
+  onCollision(enemy_controller.enemies,player.bullets)
 end
 
 function love.draw()
