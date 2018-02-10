@@ -7,6 +7,7 @@
 --Initialize values for game scene
 local welcomeImage
 function love.load()
+  game_over = false
   welcomeImage = love.graphics.newImage("images/startScreen.jpg")
   player = {}
   player.x = 0
@@ -87,6 +88,9 @@ function love.update(dt)
 
   --Enemy movement
   	for _,e in pairs(enemy_controller.enemies)do
+  		if e.y >= love.graphics.getHeight()/4 then
+  			game_over = true
+  		end
   		e.y = e.y + 1
   	end
 
@@ -100,8 +104,15 @@ function love.update(dt)
 end
 
 function love.draw()
+   --Check if the game is over
+   if game_over then	
+	   love.graphics.print("Game Over",300,300,0,2,2,0,0)
+	   --Do this so nothing else can be printed on the screen
+	   return
+   end
+
   --Draw the welcome image
- love.graphics.draw(welcomeImage, 54, 54)
+  --love.graphics.draw(welcomeImage, 54, 54)
  
   --Draw the player
   love.graphics.setColor(0, 0, 100)
