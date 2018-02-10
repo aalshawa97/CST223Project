@@ -27,8 +27,10 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
-  enemy_controller:spawnEnemy(300,0)
-  enemy_controller:spawnEnemy(0,0)
+  
+  for i=0, 8 do
+  	enemy_controller:spawnEnemy(i*10,0)
+  end
 end
 
 --Enemy fire code
@@ -99,8 +101,8 @@ end
 
 function love.draw()
   --Draw the welcome image
-  love.graphics.draw(welcomeImage, 54, 54)
-
+ love.graphics.draw(welcomeImage, 54, 54)
+ 
   --Draw the player
   love.graphics.setColor(0, 0, 100)
   love.graphics.draw(player.image, player.x, player.y,0,.2)
@@ -114,6 +116,6 @@ function love.draw()
 -- Draw bullets
   love.graphics.setColor(255,0,0)
   for _,b in pairs(player.bullets) do
-    love.graphics.rectangle("fill", b.x, b.y, 10, 10)
+    love.graphics.rectangle("fill", b.x-17, b.y, 10, 10)
   end
 end
