@@ -46,9 +46,15 @@ end
 function onCollision(enemies, bullets)
 	for i,e in pairs(enemies)do
 		for _,b in pairs(bullets)do
-			if b.y <= e.y + e.height and b.x > e.x and b.x < e.x + e.width then
+			if b.y <= e.y + e.height and b.x >= e.x and b.x <= e.x + e.width then
 				--Collison occurred
 				table.remove(enemies,i)
+        love.graphics.print("You Win", 300, 300);
+
+        if next(table) == nil then
+        love.graphics.print("You Win", 300, 300);
+        end
+
 			end
 		end
 	end
