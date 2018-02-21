@@ -28,7 +28,6 @@ function love.load()
     end
  end
   enemy_controller:spawnEnemy(300,0)
-  enemy_controller:spawnEnemy(0,0)
 end
 
 --Enemy fire code
@@ -63,13 +62,13 @@ end
 function enemy_controller:spawnEnemy(x,y)
   --Initialize enemy properties
   enemy = {}
-  enemy.x = 50
-  enemy.y = 0
+  enemy.x = x
+  enemy.y = x
   enemy.width = 10
   enemy.height = 10
   enemy.bullets = {}
   enemy.cooldown = 20
-  enemy.speed = 10
+  enemy.speed = 20
   enemy.movecount = 0
   table.insert(self.enemies,enemy)
 end
@@ -79,6 +78,9 @@ end
 function love.update(dt)
   player.cooldown = player.cooldown - 1
 
+--Enemy fires
+	--enemy.fire();
+  
 --Handle player controls
   if ( (love.keyboard.isDown("right") or love.keyboard.isDown("d"))  and (player.x <= love.graphics.getWidth() - 70) )   then
     player.x = player.x + 3
