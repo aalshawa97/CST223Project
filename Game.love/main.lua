@@ -90,6 +90,11 @@ function love.update(dt)
   if love.keyboard.isDown("space") then
   	player.fire()
   end
+  
+  if love.keyboard.isDown("return") then
+	welcomeImage = love.graphics.newImage("images/stars.jpg")
+	love.draw()
+  end
 
   --Enemy movement
   	for _,e in pairs(enemy_controller.enemies)do
