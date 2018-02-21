@@ -5,9 +5,9 @@
   enemy_controller.enemies = {}
   enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
 --Initialize values for game scene
-local welcomeImage
+local backgroundImage
 function love.load()
-  welcomeImage = love.graphics.newImage("images/startScreen.jpg")
+  backgroundImage = love.graphics.newImage("images/startScreen.jpg")
   player = {}
   player.x = 345
   player.y = 540
@@ -49,11 +49,11 @@ function onCollision(enemies, bullets)
 			if b.y <= e.y + e.height and b.x >= e.x and b.x <= e.x + e.width then
 				--Collison occurred
 				table.remove(enemies,i)
-        love.graphics.print("You Win", 300, 300);
-
-        if next(table) == nil then
-        love.graphics.print("You Win", 300, 300);
-        end
+					love.draw()
+				if # table == 0 then
+					backgroundImage = love.graphics.newImage("images/win.png")
+					love.draw()
+				end
 
 			end
 		end
@@ -92,7 +92,7 @@ function love.update(dt)
   end
   
   if love.keyboard.isDown("return") then
-	welcomeImage = love.graphics.newImage("images/stars.jpg")
+	backgroundImage = love.graphics.newImage("images/stars.jpg")
 	love.draw()
   end
 
@@ -163,8 +163,8 @@ function love.update(dt)
 end
 
 function love.draw()
-  --Draw the welcome image
-  love.graphics.draw(welcomeImage, 54, 54)
+  --Draw the background image
+  love.graphics.draw(backgroundImage, 54, 54)
 
   --Draw the player
   love.graphics.setColor(255, 255, 255)
