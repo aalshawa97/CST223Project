@@ -5,9 +5,10 @@
   enemy_controller.enemies = {}
   enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
 --Initialize values for game scene
-local backgroundImage
+local backgroundImage,gameOn
 function love.load()
   backgroundImage = love.graphics.newImage("images/startScreen.jpg")
+  gameOn = false;
   player = {}
   player.x = 345
   player.y = 540
@@ -27,7 +28,9 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
-  enemy_controller:spawnEnemy(300,0)
+	for i=1,1 do 
+		enemy_controller:spawnEnemy(300 + i*50,i*50)
+	end
 end
 
 --Enemy fire code
@@ -49,7 +52,7 @@ function onCollision(enemies, bullets)
 				--Collison occurred
 				table.remove(enemies,i)
 					love.draw()
-				if # table == 0 then
+				if # table == 0 and gameOn == true then
 					backgroundImage = love.graphics.newImage("images/win.png")
 					love.draw()
 				end
@@ -94,7 +97,11 @@ function love.update(dt)
   end
   
   if love.keyboard.isDown("return") then
+	gameOn = true;
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
+	for i=1,1 do 
+		enemy_controller:spawnEnemy(200 + i*50,i*50)
+	end
 	love.draw()
   end
 
