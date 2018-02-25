@@ -7,6 +7,8 @@
 --Initialize values for game scene
 local backgroundImage,gameOn
 function love.load()
+  -- Timer for the text displayed to fade
+  alpha = 255
   backgroundImage = love.graphics.newImage("images/startScreen.jpg")
   gameOn = false;
   player = {}
@@ -79,6 +81,12 @@ end
 
 --Update timer count for gun cool down
 function love.update(dt)
+-- so it takes 3 seconds to remove text on this screen
+	alpha = alpha - (dt * (255 / 3)) 
+	
+-- Ensure that a 0 is the lowest value we get	
+	if alpha < 0 then alpha = 0 end 
+	
   player.cooldown = player.cooldown - 1
 
 --Enemy fires
@@ -174,6 +182,13 @@ end
 function love.draw()
   --Draw the background image
   love.graphics.draw(backgroundImage, 54, 54)
+  
+  --Welcome the user to the game
+  love.graphics.setColor(0, 255, 0, alpha)
+  love.graphics.print("Welcome!",320, 0, 0, 2,2)
+  
+  --Notify the user of which button to press to begin the game
+  love.graphics.print("Press Enter To Begin",255, 50, 0, 2,2)
 
   --Draw the player
   love.graphics.setColor(255, 255, 255)
