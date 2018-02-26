@@ -19,6 +19,7 @@ function love.load()
   player.speed = 10
   player.image = love.graphics.newImage("images/spaceship.png")
   player.fireSound = love.audio.newSource('laserGunNoise.mp3')
+
   player.fire = function()
     if player.cooldown <= 0 then
       --Laser gun sound
@@ -30,6 +31,24 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
+ 
+enemy = {}
+enemy.bullets = {}
+enemy.cooldown = 20
+enemy.speed = 10
+  
+   enemy.fire = function()
+		if enemy.cooldown <= 0 then
+		  --Laser gun sound
+		  love.audio.play(player.fireSound)
+		  enemy.cooldown = 20
+		  bullet = {}
+		  bullet.x = enemy.x + 35
+		  bullet.y = enemy.y
+		  table.insert(enemy.bullets, bullet)
+		end
+	end
+	
 	--Spawn Enemies
 	for i=1,2 do 
 		enemy_controller:spawnEnemy(300 + i*50,0)
@@ -93,9 +112,6 @@ function love.update(dt)
 	if alpha < 0 then alpha = 0 end 
 	
   player.cooldown = player.cooldown - 1
-
---Enemy fires
-	--enemy.fire();
   
 --Handle player controls
   if ( (love.keyboard.isDown("right") or love.keyboard.isDown("d"))  and (player.x <= love.graphics.getWidth() - 70) )   then
@@ -112,10 +128,16 @@ function love.update(dt)
   if love.keyboard.isDown("return") then
 	gameOn = true;
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
+	
+	--Spawn enemies when the game begins
 	for i=1,1 do 
 		enemy_controller:spawnEnemy(200 + i*50,i*50)
 	end
+
 	love.draw()
+
+	--Enemy fires
+	--enemy.fire();
   end
 
   --Enemy movement
