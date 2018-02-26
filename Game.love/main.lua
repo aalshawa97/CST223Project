@@ -30,8 +30,13 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
+	--Spawn Enemies
+	for i=1,2 do 
+		enemy_controller:spawnEnemy(300 + i*50,0)
+	end
+		
 	for i=1,1 do 
-		enemy_controller:spawnEnemy(300 + i*50,i*50)
+		enemy_controller:spawnEnemy(100 + i*100,0)
 	end
 end
 
@@ -68,7 +73,7 @@ function enemy_controller:spawnEnemy(x,y)
   --Initialize enemy properties
   enemy = {}
   enemy.x = x
-  enemy.y = x
+  enemy.y = y
   enemy.width = 10
   enemy.height = 10
   enemy.bullets = {}
