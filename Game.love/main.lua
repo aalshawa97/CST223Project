@@ -33,6 +33,8 @@ function love.load()
  end
  
 enemy = {}
+enemy.x = 345
+enemy.y = 540
 enemy.bullets = {}
 enemy.cooldown = 20
 enemy.speed = 10
@@ -125,6 +127,9 @@ function love.update(dt)
   	player.fire()
   end
   
+  --Enemy fires
+	--enemy.fire();
+  
   if love.keyboard.isDown("return") then
 	gameOn = true;
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
@@ -135,9 +140,6 @@ function love.update(dt)
 	end
 
 	love.draw()
-
-	--Enemy fires
-	--enemy.fire();
   end
 
   --Enemy movement
@@ -203,6 +205,14 @@ function love.update(dt)
     end
     b.y = b.y - 10
   end
+  
+    for i,b in ipairs(enemy.bullets) do
+    if b.y < -10 then
+      table.remove(enemy.bullets, i)
+    end
+    b.y = b.y - 10
+  end
+  
   onCollision(enemy_controller.enemies,player.bullets)
 end
 
