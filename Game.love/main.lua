@@ -4,6 +4,7 @@
   enemy_controller = {}
   enemy_controller.enemies = {}
   enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
+  love.window.setTitle( "Bit Shooter" )
 --Initialize values for game scene
 local backgroundImage,gameOn
 function love.load()
