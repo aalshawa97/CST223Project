@@ -1,9 +1,9 @@
-    love.graphics.setDefaultFilter('nearest','nearest')
+  love.graphics.setDefaultFilter('nearest','nearest')
   --Initialize a table of enemies
   enemy = {}
   enemy_controller = {}
   enemy_controller.enemies = {}
-  enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
+  enemy_controller.image = love.graphics.newImage("images/enemyAlien2.png")
   --Load the titlebar name
   love.window.setTitle( "Bit Shooter" )
 --Initialize values for game scene
@@ -136,9 +136,6 @@ function love.update(dt)
   	player.fire()
   end
   
-  --Enemy fires
-	--enemy.fire();
-  
   if love.keyboard.isDown("return") then
 	gameOn = true;
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
@@ -173,7 +170,6 @@ function love.update(dt)
         e.movecount = 0
       end
       --****end stairstep movement***
-      
       
       --****below code creates an offset zigzag movement for enemy****
       --[[--enemy move down
@@ -247,7 +243,7 @@ function love.draw()
   	love.graphics.draw(enemy_controller.image, e.x, e.y,0,.2)
   end
 
--- Draw bullets
+  --Draw bullets
   love.graphics.setColor(255,0,0)
   for _,b in pairs(player.bullets) do
     love.graphics.rectangle("fill", b.x, b.y, 10, 10)
