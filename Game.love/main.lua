@@ -10,6 +10,7 @@ function love.load()
   -- Timer for the text displayed to fade
   alpha = 255
   backgroundImage = love.graphics.newImage("images/startScreen.jpg")
+  gameWinScore = 0
   gameOn = false;
   player = {}
   player.x = 345
@@ -53,10 +54,12 @@ enemy.speed = 10
 	
 	--Spawn Enemies
 	for i=1,2 do 
+		gameWinScore = gameWinScore + 1;
 		enemy_controller:spawnEnemy(300 + i*50,0)
 	end
 		
 	for i=1,1 do 
+		gameWinScore = gameWinScore + 1;
 		enemy_controller:spawnEnemy(100 + i*100,0)
 	end
 end
@@ -78,9 +81,10 @@ function onCollision(enemies, bullets)
 		for _,b in pairs(bullets)do
 			if b.y <= e.y + e.height and b.x >= e.x and b.x <= e.x + e.width then
 				--Collison occurred
+				gameWinScore = gameWinScore - 1;
 				table.remove(enemies,i)
 					love.draw()
-				if # table == 0 and gameOn == true then
+				if gameWinScore == 0 and gameOn == true then
 					backgroundImage = love.graphics.newImage("images/win.png")
 					love.draw()
 				end
@@ -136,6 +140,7 @@ function love.update(dt)
 	
 	--Spawn enemies when the game begins
 	for i=1,1 do 
+		gameWinScore = gameWinScore + 1;
 		enemy_controller:spawnEnemy(200 + i*50,i*50)
 	end
 
