@@ -4,6 +4,7 @@
   enemy_controller = {}
   enemy_controller.enemies = {}
   enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
+  --Load the titlebar name
   love.window.setTitle( "Bit Shooter" )
 --Initialize values for game scene
 local backgroundImage,gameOn
@@ -16,6 +17,7 @@ function love.load()
   player = {}
   player.x = 345
   player.y = 540
+  player.score = 0
   player.bullets = {}
   player.cooldown = 20
   player.speed = 10
@@ -33,7 +35,7 @@ function love.load()
       table.insert(player.bullets, bullet)
     end
  end
- 
+
 enemy = {}
 enemy.x = 345
 enemy.y = 540
@@ -83,6 +85,7 @@ function onCollision(enemies, bullets)
 			if b.y <= e.y + e.height and b.x >= e.x and b.x <= e.x + e.width then
 				--Collison occurred
 				gameWinScore = gameWinScore - 1;
+				player.score = player.score + 1
 				table.remove(enemies,i)
 					love.draw()
 				if gameWinScore == 0 and gameOn == true then
@@ -112,6 +115,7 @@ end
 
 --Update timer count for gun cool down
 function love.update(dt)
+ 
 -- so it takes 3 seconds to remove text on this screen
 	alpha = alpha - (dt * (255 / 3)) 
 	
@@ -248,4 +252,7 @@ function love.draw()
   for _,b in pairs(player.bullets) do
     love.graphics.rectangle("fill", b.x, b.y, 10, 10)
   end
+  
+  --Load score board
+	love.graphics.print("Score: " .. player.score, 16, 16)
 end
