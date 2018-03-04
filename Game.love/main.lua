@@ -141,9 +141,9 @@ function love.update(dt)
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
 	
 	--Spawn enemies when the game begins
-	for i=1,1 do 
+	for i=1,10 do 
 		gameWinScore = gameWinScore + 1;
-		enemy_controller:spawnEnemy(200 + i*50,i*50)
+		enemy_controller:spawnEnemy(0 + i*100,i*10)
 	end
 
 	love.draw()
@@ -172,7 +172,7 @@ function love.update(dt)
       --****end stairstep movement***
       
       --****below code creates an offset zigzag movement for enemy****
-      --[[--enemy move down
+
       if e.movecount <= 20 then
         e.y = e.y + 1
         e.movecount = e.movecount + 1
@@ -201,7 +201,7 @@ function love.update(dt)
       if e.movecount > 120 then
         e.movecount = 0
       end
-      --****end offset zigzag movement code****--]]
+     
       
   	end
 
