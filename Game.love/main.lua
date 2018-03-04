@@ -246,7 +246,7 @@ function love.draw()
   love.graphics.print("Welcome!",320, 0, 0, 2,2)
   
   --Notify the user of which button to press to begin the game
-  love.graphics.print("Destroy All Enemies,Press Enter To Spawn Enemies",0, 50, 0, 2,2)
+  love.graphics.print("Destroy All Enemies,Press Enter To Spawn Enemies",50, 50, 0, 2,2)
 
   --Draw the player
   love.graphics.setColor(255, 255, 255)
