@@ -56,13 +56,17 @@ enemy.speed = 10
 	end
 	
 	--Spawn Enemies
-	for i=1,2 do 
-		gameWinScore = gameWinScore + 1;
+	for i=1,2 do
+		if gameOn == true then
+			gameWinScore = gameWinScore + 1;
+		end
 		enemy_controller:spawnEnemy(300 + i*50,0)
 	end
 		
 	for i=1,1 do 
-		gameWinScore = gameWinScore + 1;
+		if gameOn == true then
+			gameWinScore = gameWinScore + 1;
+		end
 		enemy_controller:spawnEnemy(100 + i*100,0)
 	end
 end
@@ -84,12 +88,15 @@ function onCollision(enemies, bullets)
 		for _,b in pairs(bullets)do
 			if b.y <= e.y + e.height and b.x >= e.x and b.x <= e.x + e.width then
 				--Collison occurred
-				gameWinScore = gameWinScore - 1;
-				player.score = player.score + 1
+				if gameOn == true then
+					gameWinScore = gameWinScore - 1;
+					player.score = player.score + 1
+				end
 				table.remove(enemies,i)
 					love.draw()
-				if gameWinScore == 0 and gameOn == true then
+				if #enemy_controller.enemies == 0 and gameOn == true then
 					backgroundImage = love.graphics.newImage("images/win.png")
+					--Notify the user of which button to press to begin the game
 					love.draw()
 				end
 
@@ -112,9 +119,12 @@ function enemy_controller:spawnEnemy(x,y)
   table.insert(self.enemies,enemy)
 end
 
-
 --Update timer count for gun cool down
 function love.update(dt)
+
+--Check if we have won the game
+	if #enemy_controller.enemies == 0 then
+	end
  
 -- so it takes 3 seconds to remove text on this screen
 	alpha = alpha - (dt * (255 / 3)) 
@@ -141,7 +151,14 @@ function love.update(dt)
 	backgroundImage = love.graphics.newImage("images/stars.jpg")
 	
 	--Spawn enemies when the game begins
-	for i=1,10 do 
+	for i=1,2 do 
+		gameWinScore = gameWinScore + 1;
+		enemy_controller:spawnEnemy(0 + i*100,i*10)
+	end
+	
+	--Spawn blue aliens
+	--enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
+	for i=2,4 do 
 		gameWinScore = gameWinScore + 1;
 		enemy_controller:spawnEnemy(0 + i*100,i*10)
 	end
@@ -201,8 +218,6 @@ function love.update(dt)
       if e.movecount > 120 then
         e.movecount = 0
       end
-     
-      
   	end
 
   for i,b in ipairs(player.bullets) do
@@ -231,7 +246,7 @@ function love.draw()
   love.graphics.print("Welcome!",320, 0, 0, 2,2)
   
   --Notify the user of which button to press to begin the game
-  love.graphics.print("Press Enter To Begin",255, 50, 0, 2,2)
+  love.graphics.print("Destroy All Enemies,Press Enter To Spawn Enemies",0, 50, 0, 2,2)
 
   --Draw the player
   love.graphics.setColor(255, 255, 255)
@@ -249,6 +264,7 @@ function love.draw()
     love.graphics.rectangle("fill", b.x, b.y, 10, 10)
   end
   
+    --love.graphics.setColor(0, 255, 0, alpha + 10)
   --Load score board
 	love.graphics.print("Score: " .. player.score, 16, 16)
 end
