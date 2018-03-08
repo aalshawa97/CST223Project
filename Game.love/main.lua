@@ -12,6 +12,11 @@ function love.load()
   -- Timer for the text displayed to fade
   alpha = 255
   backgroundImage = love.graphics.newImage("images/startScreen.jpg")
+  
+  --vars for background starting position
+  bgyposition = 45
+  bgxposition = 54
+  
   gameWinScore = 0
   gameOn = false;
   player = {}
@@ -121,6 +126,14 @@ end
 
 --Update timer count for gun cool down
 function love.update(dt)
+  
+  --scrolling background
+  if gameOn == true then
+    --background speed
+    bgspeed = 100
+    -- background movement
+    bgyposition = (bgyposition + bgspeed*dt) % backgroundImage:getHeight()
+  end
 
 --Check if we have won the game
 	if #enemy_controller.enemies == 0 then
@@ -147,8 +160,11 @@ function love.update(dt)
   end
   
   if love.keyboard.isDown("return") then
-	gameOn = true;
-	backgroundImage = love.graphics.newImage("images/stars.jpg")
+    gameOn = true;
+    backgroundImage = love.graphics.newImage("images/stars.jpg")
+  --move backgroud image for new scrolling image
+    bgxposition = 0
+    bgyposition = 0
 	
 	--Spawn enemies when the game begins
 	for i=1,2 do 
@@ -164,7 +180,9 @@ function love.update(dt)
 	end
 
 	love.draw()
-  end
+end
+
+
 
   --Enemy movement
   	for _,e in pairs(enemy_controller.enemies)do
@@ -239,7 +257,8 @@ end
 
 function love.draw()
   --Draw the background image
-  love.graphics.draw(backgroundImage, 54, 54)
+  love.graphics.draw(backgroundImage, bgxposition, bgyposition)
+  love.graphics.draw(backgroundImage, bgxposition, bgyposition - backgroundImage:getHeight())
   
   --Welcome the user to the game
   love.graphics.setColor(0, 255, 0, alpha)
