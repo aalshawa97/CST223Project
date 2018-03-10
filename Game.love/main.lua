@@ -23,6 +23,7 @@ function love.load()
   player.x = 345
   player.y = 540
   player.score = 0
+  player.timeout = 10;
   player.bullets = {}
   player.cooldown = 20
   player.speed = 10
@@ -127,6 +128,10 @@ end
 --Update timer count for gun cool down
 function love.update(dt)
   
+  if gameOn == true then
+  player.timeout = player.timeout - dt
+  end
+  
   --scrolling background
   if gameOn == true then
     --background speed
@@ -134,6 +139,11 @@ function love.update(dt)
     -- background movement
     bgyposition = (bgyposition + bgspeed*dt) % backgroundImage:getHeight()
   end
+  
+  if player.timeout <= 0 and gameOn == true then
+	backgroundImage = love.graphics.newImage("images/gameOver.jpg")
+	gameOver = true
+end
 
 --Check if we have won the game
 	if #enemy_controller.enemies == 0 then
