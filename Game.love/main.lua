@@ -1,14 +1,17 @@
   love.graphics.setDefaultFilter('nearest','nearest')
+  
   --Initialize a table of enemies
   enemy = {}
   enemy_controller = {}
   enemy_controller.enemies = {}
   enemy_controller.image = love.graphics.newImage("images/enemyAlien2.png")
-  --Load the titlebar name
+  
+   --Load the titlebar name
   love.window.setTitle( "Bit Shooter" )
---Initialize values for game scene
-local backgroundImage,gameOn
-function love.load()
+
+  --Initialize values for game scene
+  local backgroundImage,gameOn
+  function love.load()
   -- Timer for the text displayed to fade
   alpha = 255
   backgroundImage = love.graphics.newImage("images/startScreen.jpg")
@@ -16,14 +19,13 @@ function love.load()
   --vars for background starting position
   bgyposition = 45
   bgxposition = 54
-  
   gameWinScore = 0
   gameOn = false;
   player = {}
   player.x = 345
   player.y = 540
   player.score = 0
-  player.timeout = 10;
+  player.timeout = 350;
   player.bullets = {}
   player.cooldown = 20
   player.speed = 10
@@ -42,12 +44,12 @@ function love.load()
     end
  end
 
-enemy = {}
-enemy.x = 345
-enemy.y = 540
-enemy.bullets = {}
-enemy.cooldown = 20
-enemy.speed = 10
+  enemy = {}
+  enemy.x = 345
+  enemy.y = 540
+  enemy.bullets = {}
+  enemy.cooldown = 20
+  enemy.speed = 10
   
    enemy.fire = function()
 		if enemy.cooldown <= 0 then
@@ -99,10 +101,9 @@ function onCollision(enemies, bullets)
 					player.score = player.score + 1
 				end
 				table.remove(enemies,i)
-					love.draw()
+				love.draw()
 				if #enemy_controller.enemies == 0 and gameOn == true then
 					backgroundImage = love.graphics.newImage("images/win.png")
-					--Notify the user of which button to press to begin the game
 					love.draw()
 				end
 
@@ -128,16 +129,15 @@ end
 --Update timer count for gun cool down
 function love.update(dt)
   
-  if gameOn == true then
-  player.timeout = player.timeout - dt
-  end
-  
+  if gameOn == true and player.timeout> 0 then
+  player.timeout = math.floor(player.timeout - dt)
   --scrolling background
-  if gameOn == true then
-    --background speed
-    bgspeed = 100
-    -- background movement
-    bgyposition = (bgyposition + bgspeed*dt) % backgroundImage:getHeight()
+
+  --background speed
+  bgspeed = 100
+  -- background movement
+  bgyposition = (bgyposition + bgspeed*dt) % backgroundImage:getHeight()
+
   end
   
   if player.timeout <= 0 and gameOn == true then
@@ -169,7 +169,7 @@ end
   	player.fire()
   end
   
-  if love.keyboard.isDown("return") then
+  if love.keyboard.isDown("return") and gameOn == false then
     gameOn = true;
     backgroundImage = love.graphics.newImage("images/stars.jpg")
   --move backgroud image for new scrolling image
@@ -184,6 +184,7 @@ end
 	
 	--Spawn blue aliens
 	--enemy_controller.image = love.graphics.newImage("images/enemyAlien.jpg")
+
 	for i=2,4 do 
 		gameWinScore = gameWinScore + 1;
 		enemy_controller:spawnEnemy(0 + i*100,i*10)
@@ -191,8 +192,6 @@ end
 
 	love.draw()
 end
-
-
 
   --Enemy movement
   	for _,e in pairs(enemy_controller.enemies)do
@@ -275,7 +274,9 @@ function love.draw()
   love.graphics.print("Welcome!",320, 0, 0, 2,2)
   
   --Notify the user of which button to press to begin the game
-  love.graphics.print("Destroy All Enemies,Press Enter To Spawn Enemies",50, 50, 0, 2,2)
+  love.graphics.print("Destroy All Enemies",270, 50, 0, 2,2)
+
+  love.graphics.print("Press Enter To Start",270, 100, 0, 2,2)
 
   --Draw the player
   love.graphics.setColor(255, 255, 255)
@@ -293,7 +294,10 @@ function love.draw()
     love.graphics.rectangle("fill", b.x, b.y, 10, 10)
   end
   
-    --love.graphics.setColor(0, 255, 0, alpha + 10)
   --Load score board
 	love.graphics.print("Score: " .. player.score, 16, 16)
+
+  --Load timer
+	love.graphics.print("Time Left: " .. player.timeout, 16,40)
+
 end
