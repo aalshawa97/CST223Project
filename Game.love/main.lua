@@ -25,7 +25,7 @@
   player.x = 345
   player.y = 540
   player.score = 0
-  player.timeout = 350;
+  player.timeout = 35000;
   player.bullets = {}
   player.cooldown = 20
   player.speed = 10
@@ -63,20 +63,21 @@
 		end
 	end
 	
+  --***This code was spawning enemies before game start****
 	--Spawn Enemies
-	for i=1,2 do
-		if gameOn == true then
-			gameWinScore = gameWinScore + 1;
-		end
-		enemy_controller:spawnEnemy(300 + i*50,0)
-	end
+	--for i=1,2 do
+		--if gameOn == true then
+			--gameWinScore = gameWinScore + 1;
+		--end
+		--enemy_controller:spawnEnemy(300 + i*50,0)
+	--end
 		
-	for i=1,1 do 
-		if gameOn == true then
-			gameWinScore = gameWinScore + 1;
-		end
-		enemy_controller:spawnEnemy(100 + i*100,0)
-	end
+	--for i=1,1 do 
+		--if gameOn == true then
+			--gameWinScore = gameWinScore + 1;
+		--end
+		--enemy_controller:spawnEnemy(100 + i*100,0)
+	--end
 end
 
 --Enemy fire code
